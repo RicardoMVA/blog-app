@@ -1,0 +1,32 @@
+<% include partials/header.ejs %>
+
+<div class="ui main text container segment">
+
+	<div class="ui huge header">New Blog</div>
+
+	<form class="ui form" action="/blogs" method="POST">
+
+		<div class="field">
+			<label>Title</label>
+			<!-- use "blog[something]" to send the whole form to the
+			backend, divided by each category. it will be read
+			automatically like that by the DB -->
+			<input type="text" name="blog[title]" placeholder="Title" required>
+		</div>
+
+		<div class="field">
+			<label>Image URL</label>
+			<input type="text" name="blog[image]" placeholder="Image URL" required>
+		</div>
+
+		<div class="field">
+			<label>Blog Text</label>
+			<textarea name="blog[body]" placeholder="Blog text goes here" required></textarea>
+		</div>
+		
+		<input class="ui blue big basic button" type="submit">
+
+	</form>
+</div>
+
+<% include partials/footer.ejs %>

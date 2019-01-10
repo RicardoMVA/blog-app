@@ -1,0 +1,16 @@
+/* this prevents the navbar from being over the page content */
+body {
+	margin-top: 70px;
+}
+
+
+/* this makes the header icon bigger */
+i.icon {
+	font-size: 2em;
+}
+
+
+/* aligns delete button in show page */
+#delete {
+	display: inline;
+}

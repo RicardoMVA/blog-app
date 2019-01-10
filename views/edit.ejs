@@ -1,0 +1,31 @@
+<% include partials/header.ejs %>
+
+<div class="ui main text container segment">
+
+	<div class="ui huge header">Edit <%= blog.title %></div>
+
+	<!-- since HTML doesn't support PUT and DELETE requests, we need
+	to cheat with method-override (npm install method-override) -->
+	<form class="ui form" action="/blogs/<%= blog._id %>?_method=PUT" method="POST">
+
+		<div class="field">
+			<label>Title</label>
+			<input type="text" name="blog[title]" value="<%= blog.title %>" required>
+		</div>
+
+		<div class="field">
+			<label>Image URL</label>
+			<input type="text" name="blog[image]" value="<%= blog.image %>" required>
+		</div>
+
+		<div class="field">
+			<label>Blog Text</label>
+			<textarea name="blog[body]" placeholder="Blog text goes here" required><%= blog.body %></textarea>
+		</div>
+		
+		<input class="ui blue big basic button" type="submit">
+
+	</form>
+</div>
+
+<% include partials/footer.ejs %>
