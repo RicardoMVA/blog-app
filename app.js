@@ -1,9 +1,9 @@
-var express          = require("express"),
-	app 	         = express(),
-	bodyParser       = require("body-parser"),
-	mongoose  	     = require("mongoose"),
-	methodOverride   = require("method-override"),
-	expressSanitizer = require("express-sanitizer");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const methodOverride = require("method-override");
+const expressSanitizer = require("express-sanitizer");
 
 // APP CONFIG
 app.set("view engine", "ejs");
@@ -32,7 +32,7 @@ let url = "mongodb://localhost/restful_blog_app"
 
 mongoose.connect(url, {useNewUrlParser:true});
 
-var blogSchema = new mongoose.Schema({
+const blogSchema = new mongoose.Schema({
 	title: String,
 	// to determine a fallback if user input is invalid, do this
 	// it will place the 'default' object if user input doesn't
@@ -42,19 +42,19 @@ var blogSchema = new mongoose.Schema({
 	created: {type: Date, default: Date.now}
 });
 
-var Blog = mongoose.model("Blog", blogSchema);
+const Blog = mongoose.model("Blog", blogSchema);
 
 
 // RESTFUL ROUTES
 
-app.get("/", function(req, res){
+app.get("/", (req, res) => {
 	res.redirect("/blogs");
 });
 
 
 // INDEX
-app.get("/blogs", function(req, res){
-	Blog.find({}, function(err, blogs){
+app.get("/blogs", (req, res) => {
+	Blog.find({}, (err, blogs) => {
 		if (err) {
 			console.log("Something went wrong showing the blogs");
 			console.log(err);
@@ -66,21 +66,21 @@ app.get("/blogs", function(req, res){
 
 
 // NEW
-app.get("/blogs/new", function(req, res){
+app.get("/blogs/new", (req, res) => {
 	res.render("new");
 });
 
 
 
 // CREATE
-app.post("/blogs", function(req, res){
+app.post("/blogs", (req, res) => {
 	// this line sanitizes the 'blog text' form, removing any script 
 	// tags while still allowing for HTML to be used in the form
 	req.body.blog.body = req.sanitize(req.body.blog.body);
 
 	// req.body.blog retrieves all the "blog" inputs, divided
 	// by each category in the []
-	Blog.create(req.body.blog, function(err, newBlog){
+	Blog.create(req.body.blog, (err, newBlog) => {
 		if(err){
 			console.log("Something went wrong when creating the blog");
 			console.log(err);
@@ -94,9 +94,9 @@ app.post("/blogs", function(req, res){
 
 
 // SHOW
-app.get("/blogs/:id", function(req, res){
+app.get("/blogs/:id", (req, res) => {
 	// find by ID specific blog to show
-	Blog.findById(req.params.id, function(err, foundBlog){
+	Blog.findById(req.params.id, (err, foundBlog) => {
 		if(err){
 			console.log("Something went wrong when finding the blog");
 			console.log(err);
@@ -109,8 +109,8 @@ app.get("/blogs/:id", function(req, res){
 
 
 // EDIT
-app.get("/blogs/:id/edit", function(req, res){
-	Blog.findById(req.params.id, function(err, foundBlog){
+app.get("/blogs/:id/edit", (req, res) => {
+	Blog.findById(req.params.id, (err, foundBlog) => {
 		if(err) {
 			console.log("Something went wrong when editing the blog");
 			console.log(err);
@@ -123,13 +123,13 @@ app.get("/blogs/:id/edit", function(req, res){
 
 
 // UPDATE
-app.put("/blogs/:id", function(req, res){
+app.put("/blogs/:id", (req, res) => {
 	// this line sanitizes the 'blog text' form, removing any script 
 	// tags while still allowing for HTML to be used in the form
 	req.body.blog.body = req.sanitize(req.body.blog.body);
 	
 	// findByIdAndUpdate(id, newData, callback)
-	Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+	Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedBlog) => {
 		if(err) {
 			console.log("Something went wrong when updating the blog");
 			console.log(err);
@@ -143,9 +143,9 @@ app.put("/blogs/:id", function(req, res){
 
 
 // DESTROY
-app.delete("/blogs/:id", function(req, res){
+app.delete("/blogs/:id", (req, res) => {
 	// destroy blog from database
-	Blog.findByIdAndRemove(req.params.id, function(err){
+	Blog.findByIdAndRemove(req.params.id, (err) => {
 		if(err){
 			console.log("Could not delete the blog");
 		} else {
@@ -155,6 +155,6 @@ app.delete("/blogs/:id", function(req, res){
 });
 
 
-app.listen(3000, function(){
+app.listen(3000, () => {
 	console.log("Blog App server running on localhost:3000");
 });
