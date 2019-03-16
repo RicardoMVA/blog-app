@@ -22,7 +22,15 @@ app.use(expressSanitizer());
 
 
 // MONGOOSE/MODEL CONFIG
-mongoose.connect("mongodb://localhost/restful_blog_app");
+// Deprecation fixes done as suggested in the docs
+// https://mongoosejs.com/docs/deprecations.html
+mongoose.set('useCreateIndex', true);
+
+mongoose.set('useFindAndModify', false);
+
+let url = "mongodb://localhost/restful_blog_app"
+
+mongoose.connect(url, {useNewUrlParser:true});
 
 var blogSchema = new mongoose.Schema({
 	title: String,
